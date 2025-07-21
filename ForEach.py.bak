@@ -1,0 +1,39 @@
+# List files in the current directory
+import os
+import re
+from types import new_class
+
+# Get directories and files in the current directory and subdirectories recursively, returning two lists: directories and files
+def get_all_files_in_path_matching_regex(path, filter_regex=None):
+    files_list = []
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            if filter_regex is None or filter_regex.match(file):
+                files_list.append(os.path.join(root, file))
+    return files_list
+
+# Print all files
+def print_files(files_list):
+    for file in files_list:
+        print(file)
+
+
+def search_and_replace_in_files(files_list, search_regex, replace_regex):
+    for file in files_list:
+        with open(file, "r") as f:
+            content = f.read()
+        
+        new_content = re.sub(re.compile(search_regex), replace_regex, content)
+
+        if new_content != content:
+            print(f"Replaced {search_regex} with {replace_regex} in {file}")
+            with open(file+".bak", "w") as f:
+                f.write(content)
+            with open(file, "w") as f:
+                f.write(new_content)
+        else:
+            print(f"No replacement needed in {file}")
+
+files_list = get_all_files_in_path_matching_regex(".", re.compile(".*py$"))
+search_and_replace_in_files(files_list, "User", "Employee")
+

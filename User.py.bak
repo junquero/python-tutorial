@@ -1,0 +1,19 @@
+from datetime import datetime
+
+# User class with two attributes: name and age
+class User:
+    def __init__(self, name, date_of_birth):
+        self.name = name
+        self.date_of_birth = date_of_birth
+    
+    def calculateAge(self):
+        today = datetime.today()
+        birth_date = datetime.strptime(self.date_of_birth, "%Y-%m-%d")
+        return today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+
+    def print_user(self):
+        print(f"Name: {self.name}, Date of Birth: {self.date_of_birth} Age: {self.calculateAge()}")
+
+
+
+

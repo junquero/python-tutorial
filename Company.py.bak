@@ -1,0 +1,14 @@
+# A company has a list of users
+
+class Company:
+    def __init__(self, name):
+        self.name = name
+        self.users = []  # List of User objects
+
+    def addUser(self, user):
+        self.users.append(user)
+
+    def printUsers(self):
+        for user in self.users:
+            user.print_user()
+
