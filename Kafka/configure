@@ -1,0 +1,49 @@
+#!/bin/bash
+
+activate_kafka_python_virtual_env() {
+    # Activate Kafka python virtual env if not already activated
+    if [ -z "$VIRTUAL_ENV" ]; then
+        ./bin/activate
+    fi
+}
+
+install_python_package_if_missing() {
+    local package_name=$1
+    local pip_list="$2"
+
+    if ! echo "$pip_list" | grep -q $package_name; then
+        pip3 install $package_name --upgrade
+    else
+        echo "👍 $package_name is already installed"
+    fi
+}
+
+start_kafka_if_not_running() {
+    if ! docker compose ps | grep -q kafka; then
+        docker compose up -d
+    else
+        echo "👍 Kafka compose is already running"
+    fi
+}
+
+main() {
+    # Activate Kafka python virtual env if not already activated
+    activate_kafka_python_virtual_env
+
+    # Get list of installed packages names
+    echo "🔍 Getting list of installed packages..."
+    local pip_list
+    pip_list="$(pip3 list --require-virtualenv | grep -v '^Package' | grep -v '^----------')"
+
+    # Install python packages if missing
+    install_python_package_if_missing "confluent-kafka" "$pip_list"
+    install_python_package_if_missing "avro" "$pip_list"
+
+    # Start Kafka if not running
+    start_kafka_if_not_running
+}
+
+main "$@"
+
+
+

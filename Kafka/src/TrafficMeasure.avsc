@@ -1,0 +1,34 @@
+{
+  "type": "record",
+  "name": "TrafficMeasure",
+  "namespace": "com.example.traffic",
+  "doc": "AVRO schema for a traffic measure",
+  "fields": [
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "Timestamp of the measurements (milliseconds since epoch)"
+    },
+    {
+      "name": "average_speed",
+      "type": "float",
+      "doc": "Average speed in km/h"
+    },
+    {
+      "name": "vehicle_count",
+      "type": "int",
+      "doc": "Number of vehicles"
+    },
+    {
+      "name": "occupancy_percent",
+      "type": "float",
+      "doc": "Occupancy in percent"
+    },
+    {
+      "name": "location_geojson",
+      "type": "string",
+      "doc": "Location in GeoJSON format (WGS84)"
+    }
+  ]
+}
+
